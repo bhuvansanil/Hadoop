@@ -1,0 +1,325 @@
+#-----------------------------------------------
+# New Logical Plan:
+#-----------------------------------------------
+nyse_savedata: (Name: LOStore Schema: nyse_data::exchange#1:chararray,nyse_data::symbol#2:chararray,nyse_data::date#3:chararray,nyse_data::open#4:float,nyse_data::close#5:float,nyse_data::low#6:float,nyse_data::high#7:float,nyse_data::vol#8:long,nyse_data::avg#9:float,nyse_dividend::dividend#13:float)ColumnPrune:InputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 13]ColumnPrune:OutputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 13]
+|
+|---nyse_savedata: (Name: LOForEach Schema: nyse_data::exchange#1:chararray,nyse_data::symbol#2:chararray,nyse_data::date#3:chararray,nyse_data::open#4:float,nyse_data::close#5:float,nyse_data::low#6:float,nyse_data::high#7:float,nyse_data::vol#8:long,nyse_data::avg#9:float,nyse_dividend::dividend#13:float)ColumnPrune:InputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 13]ColumnPrune:OutputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 13]
+    |   |
+    |   (Name: LOGenerate[false,false,false,false,false,false,false,false,false,false] Schema: nyse_data::exchange#1:chararray,nyse_data::symbol#2:chararray,nyse_data::date#3:chararray,nyse_data::open#4:float,nyse_data::close#5:float,nyse_data::low#6:float,nyse_data::high#7:float,nyse_data::vol#8:long,nyse_data::avg#9:float,nyse_dividend::dividend#13:float)ColumnPrune:InputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 13]ColumnPrune:OutputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 13]
+    |   |   |
+    |   |   nyse_data::exchange:(Name: Project Type: chararray Uid: 1 Input: 0 Column: (*))
+    |   |   |
+    |   |   nyse_data::symbol:(Name: Project Type: chararray Uid: 2 Input: 1 Column: (*))
+    |   |   |
+    |   |   nyse_data::date:(Name: Project Type: chararray Uid: 3 Input: 2 Column: (*))
+    |   |   |
+    |   |   nyse_data::open:(Name: Project Type: float Uid: 4 Input: 3 Column: (*))
+    |   |   |
+    |   |   nyse_data::close:(Name: Project Type: float Uid: 5 Input: 4 Column: (*))
+    |   |   |
+    |   |   nyse_data::low:(Name: Project Type: float Uid: 6 Input: 5 Column: (*))
+    |   |   |
+    |   |   nyse_data::high:(Name: Project Type: float Uid: 7 Input: 6 Column: (*))
+    |   |   |
+    |   |   nyse_data::vol:(Name: Project Type: long Uid: 8 Input: 7 Column: (*))
+    |   |   |
+    |   |   nyse_data::avg:(Name: Project Type: float Uid: 9 Input: 8 Column: (*))
+    |   |   |
+    |   |   nyse_dividend::dividend:(Name: Project Type: float Uid: 13 Input: 9 Column: (*))
+    |   |
+    |   |---(Name: LOInnerLoad[0] Schema: nyse_data::exchange#1:chararray)
+    |   |
+    |   |---(Name: LOInnerLoad[1] Schema: nyse_data::symbol#2:chararray)
+    |   |
+    |   |---(Name: LOInnerLoad[2] Schema: nyse_data::date#3:chararray)
+    |   |
+    |   |---(Name: LOInnerLoad[3] Schema: nyse_data::open#4:float)
+    |   |
+    |   |---(Name: LOInnerLoad[4] Schema: nyse_data::close#5:float)
+    |   |
+    |   |---(Name: LOInnerLoad[5] Schema: nyse_data::low#6:float)
+    |   |
+    |   |---(Name: LOInnerLoad[6] Schema: nyse_data::high#7:float)
+    |   |
+    |   |---(Name: LOInnerLoad[7] Schema: nyse_data::vol#8:long)
+    |   |
+    |   |---(Name: LOInnerLoad[8] Schema: nyse_data::avg#9:float)
+    |   |
+    |   |---(Name: LOInnerLoad[10] Schema: nyse_dividend::dividend#13:float)
+    |
+    |---nyse_joindata: (Name: LOJoin(HASH) Schema: nyse_data::exchange#1:chararray,nyse_data::symbol#2:chararray,nyse_data::date#3:chararray,nyse_data::open#4:float,nyse_data::close#5:float,nyse_data::low#6:float,nyse_data::high#7:float,nyse_data::vol#8:long,nyse_data::avg#9:float,nyse_dividend::symbol#11:chararray,nyse_dividend::dividend#13:float)ColumnPrune:InputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13]ColumnPrune:OutputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 13]
+        |   |
+        |   symbol:(Name: Project Type: chararray Uid: 2 Input: 0 Column: 1)
+        |   |
+        |   symbol:(Name: Project Type: chararray Uid: 11 Input: 1 Column: 0)
+        |
+        |---nyse_data: (Name: LOForEach Schema: exchange#1:chararray,symbol#2:chararray,date#3:chararray,open#4:float,close#5:float,low#6:float,high#7:float,vol#8:long,avg#9:float)ColumnPrune:InputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9]ColumnPrune:OutputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9]
+        |   |   |
+        |   |   (Name: LOGenerate[false,false,false,false,false,false,false,false,false] Schema: exchange#1:chararray,symbol#2:chararray,date#3:chararray,open#4:float,close#5:float,low#6:float,high#7:float,vol#8:long,avg#9:float)ColumnPrune:InputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9]ColumnPrune:OutputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9]
+        |   |   |   |
+        |   |   |   (Name: Cast Type: chararray Uid: 1)
+        |   |   |   |
+        |   |   |   |---exchange:(Name: Project Type: bytearray Uid: 1 Input: 0 Column: (*))
+        |   |   |   |
+        |   |   |   (Name: Cast Type: chararray Uid: 2)
+        |   |   |   |
+        |   |   |   |---symbol:(Name: Project Type: bytearray Uid: 2 Input: 1 Column: (*))
+        |   |   |   |
+        |   |   |   (Name: Cast Type: chararray Uid: 3)
+        |   |   |   |
+        |   |   |   |---date:(Name: Project Type: bytearray Uid: 3 Input: 2 Column: (*))
+        |   |   |   |
+        |   |   |   (Name: Cast Type: float Uid: 4)
+        |   |   |   |
+        |   |   |   |---open:(Name: Project Type: bytearray Uid: 4 Input: 3 Column: (*))
+        |   |   |   |
+        |   |   |   (Name: Cast Type: float Uid: 5)
+        |   |   |   |
+        |   |   |   |---close:(Name: Project Type: bytearray Uid: 5 Input: 4 Column: (*))
+        |   |   |   |
+        |   |   |   (Name: Cast Type: float Uid: 6)
+        |   |   |   |
+        |   |   |   |---low:(Name: Project Type: bytearray Uid: 6 Input: 5 Column: (*))
+        |   |   |   |
+        |   |   |   (Name: Cast Type: float Uid: 7)
+        |   |   |   |
+        |   |   |   |---high:(Name: Project Type: bytearray Uid: 7 Input: 6 Column: (*))
+        |   |   |   |
+        |   |   |   (Name: Cast Type: long Uid: 8)
+        |   |   |   |
+        |   |   |   |---vol:(Name: Project Type: bytearray Uid: 8 Input: 7 Column: (*))
+        |   |   |   |
+        |   |   |   (Name: Cast Type: float Uid: 9)
+        |   |   |   |
+        |   |   |   |---avg:(Name: Project Type: bytearray Uid: 9 Input: 8 Column: (*))
+        |   |   |
+        |   |   |---(Name: LOInnerLoad[0] Schema: exchange#1:bytearray)
+        |   |   |
+        |   |   |---(Name: LOInnerLoad[1] Schema: symbol#2:bytearray)
+        |   |   |
+        |   |   |---(Name: LOInnerLoad[2] Schema: date#3:bytearray)
+        |   |   |
+        |   |   |---(Name: LOInnerLoad[3] Schema: open#4:bytearray)
+        |   |   |
+        |   |   |---(Name: LOInnerLoad[4] Schema: close#5:bytearray)
+        |   |   |
+        |   |   |---(Name: LOInnerLoad[5] Schema: low#6:bytearray)
+        |   |   |
+        |   |   |---(Name: LOInnerLoad[6] Schema: high#7:bytearray)
+        |   |   |
+        |   |   |---(Name: LOInnerLoad[7] Schema: vol#8:bytearray)
+        |   |   |
+        |   |   |---(Name: LOInnerLoad[8] Schema: avg#9:bytearray)
+        |   |
+        |   |---nyse_data: (Name: LOLoad Schema: exchange#1:bytearray,symbol#2:bytearray,date#3:bytearray,open#4:bytearray,close#5:bytearray,low#6:bytearray,high#7:bytearray,vol#8:bytearray,avg#9:bytearray)ColumnPrune:InputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9]ColumnPrune:OutputUids=[1, 2, 3, 4, 5, 6, 7, 8, 9]RequiredFields:null
+        |
+        |---nyse_dividend: (Name: LOForEach Schema: symbol#11:chararray,dividend#13:float)ColumnPrune:InputUids=[11, 13]ColumnPrune:OutputUids=[11, 13]
+            |   |
+            |   (Name: LOGenerate[false,false] Schema: symbol#11:chararray,dividend#13:float)ColumnPrune:InputUids=[11, 13]ColumnPrune:OutputUids=[11, 13]
+            |   |   |
+            |   |   (Name: Cast Type: chararray Uid: 11)
+            |   |   |
+            |   |   |---symbol:(Name: Project Type: bytearray Uid: 11 Input: 0 Column: (*))
+            |   |   |
+            |   |   (Name: Cast Type: float Uid: 13)
+            |   |   |
+            |   |   |---dividend:(Name: Project Type: bytearray Uid: 13 Input: 1 Column: (*))
+            |   |
+            |   |---(Name: LOInnerLoad[0] Schema: symbol#11:bytearray)
+            |   |
+            |   |---(Name: LOInnerLoad[1] Schema: dividend#13:bytearray)
+            |
+            |---nyse_dividend: (Name: LOLoad Schema: symbol#11:bytearray,dividend#13:bytearray)ColumnPrune:RequiredColumns=[1, 3]ColumnPrune:InputUids=[11, 13]ColumnPrune:OutputUids=[11, 13]RequiredFields:[1, 3]
+
+#-----------------------------------------------
+# Physical Plan:
+#-----------------------------------------------
+nyse_savedata: Store(/stocksjoindata:org.apache.pig.builtin.PigStorage) - scope-69
+|
+|---nyse_savedata: New For Each(false,false,false,false,false,false,false,false,false,false)[bag] - scope-68
+    |   |
+    |   Project[chararray][0] - scope-48
+    |   |
+    |   Project[chararray][1] - scope-50
+    |   |
+    |   Project[chararray][2] - scope-52
+    |   |
+    |   Project[float][3] - scope-54
+    |   |
+    |   Project[float][4] - scope-56
+    |   |
+    |   Project[float][5] - scope-58
+    |   |
+    |   Project[float][6] - scope-60
+    |   |
+    |   Project[long][7] - scope-62
+    |   |
+    |   Project[float][8] - scope-64
+    |   |
+    |   Project[float][10] - scope-66
+    |
+    |---nyse_joindata: New For Each(true,true)[tuple] - scope-47
+        |   |
+        |   Project[bag][1] - scope-45
+        |   |
+        |   Project[bag][2] - scope-46
+        |
+        |---nyse_joindata: Package[tuple]{chararray} - scope-40
+            |
+            |---nyse_joindata: Global Rearrange[tuple] - scope-39
+                |
+                |---nyse_joindata: Local Rearrange[tuple]{chararray}(false) - scope-41
+                |   |   |
+                |   |   Project[chararray][1] - scope-42
+                |   |
+                |   |---nyse_data: New For Each(false,false,false,false,false,false,false,false,false)[bag] - scope-28
+                |       |   |
+                |       |   Cast[chararray] - scope-2
+                |       |   |
+                |       |   |---Project[bytearray][0] - scope-1
+                |       |   |
+                |       |   Cast[chararray] - scope-5
+                |       |   |
+                |       |   |---Project[bytearray][1] - scope-4
+                |       |   |
+                |       |   Cast[chararray] - scope-8
+                |       |   |
+                |       |   |---Project[bytearray][2] - scope-7
+                |       |   |
+                |       |   Cast[float] - scope-11
+                |       |   |
+                |       |   |---Project[bytearray][3] - scope-10
+                |       |   |
+                |       |   Cast[float] - scope-14
+                |       |   |
+                |       |   |---Project[bytearray][4] - scope-13
+                |       |   |
+                |       |   Cast[float] - scope-17
+                |       |   |
+                |       |   |---Project[bytearray][5] - scope-16
+                |       |   |
+                |       |   Cast[float] - scope-20
+                |       |   |
+                |       |   |---Project[bytearray][6] - scope-19
+                |       |   |
+                |       |   Cast[long] - scope-23
+                |       |   |
+                |       |   |---Project[bytearray][7] - scope-22
+                |       |   |
+                |       |   Cast[float] - scope-26
+                |       |   |
+                |       |   |---Project[bytearray][8] - scope-25
+                |       |
+                |       |---nyse_data: Load(/pigdata/NYSE_daily:org.apache.pig.builtin.PigStorage) - scope-0
+                |
+                |---nyse_joindata: Local Rearrange[tuple]{chararray}(false) - scope-43
+                    |   |
+                    |   Project[chararray][0] - scope-44
+                    |
+                    |---nyse_dividend: New For Each(false,false)[bag] - scope-36
+                        |   |
+                        |   Cast[chararray] - scope-31
+                        |   |
+                        |   |---Project[bytearray][0] - scope-30
+                        |   |
+                        |   Cast[float] - scope-34
+                        |   |
+                        |   |---Project[bytearray][1] - scope-33
+                        |
+                        |---nyse_dividend: Load(/pigdata/NYSE_dividends:org.apache.pig.builtin.PigStorage) - scope-29
+
+#--------------------------------------------------
+# Map Reduce Plan                                  
+#--------------------------------------------------
+MapReduce node scope-72
+Map Plan
+Union[tuple] - scope-73
+|
+|---nyse_joindata: Local Rearrange[tuple]{chararray}(false) - scope-41
+|   |   |
+|   |   Project[chararray][1] - scope-42
+|   |
+|   |---nyse_data: New For Each(false,false,false,false,false,false,false,false,false)[bag] - scope-28
+|       |   |
+|       |   Cast[chararray] - scope-2
+|       |   |
+|       |   |---Project[bytearray][0] - scope-1
+|       |   |
+|       |   Cast[chararray] - scope-5
+|       |   |
+|       |   |---Project[bytearray][1] - scope-4
+|       |   |
+|       |   Cast[chararray] - scope-8
+|       |   |
+|       |   |---Project[bytearray][2] - scope-7
+|       |   |
+|       |   Cast[float] - scope-11
+|       |   |
+|       |   |---Project[bytearray][3] - scope-10
+|       |   |
+|       |   Cast[float] - scope-14
+|       |   |
+|       |   |---Project[bytearray][4] - scope-13
+|       |   |
+|       |   Cast[float] - scope-17
+|       |   |
+|       |   |---Project[bytearray][5] - scope-16
+|       |   |
+|       |   Cast[float] - scope-20
+|       |   |
+|       |   |---Project[bytearray][6] - scope-19
+|       |   |
+|       |   Cast[long] - scope-23
+|       |   |
+|       |   |---Project[bytearray][7] - scope-22
+|       |   |
+|       |   Cast[float] - scope-26
+|       |   |
+|       |   |---Project[bytearray][8] - scope-25
+|       |
+|       |---nyse_data: Load(/pigdata/NYSE_daily:org.apache.pig.builtin.PigStorage) - scope-0
+|
+|---nyse_joindata: Local Rearrange[tuple]{chararray}(false) - scope-43
+    |   |
+    |   Project[chararray][0] - scope-44
+    |
+    |---nyse_dividend: New For Each(false,false)[bag] - scope-36
+        |   |
+        |   Cast[chararray] - scope-31
+        |   |
+        |   |---Project[bytearray][0] - scope-30
+        |   |
+        |   Cast[float] - scope-34
+        |   |
+        |   |---Project[bytearray][1] - scope-33
+        |
+        |---nyse_dividend: Load(/pigdata/NYSE_dividends:org.apache.pig.builtin.PigStorage) - scope-29--------
+Reduce Plan
+nyse_savedata: Store(/stocksjoindata:org.apache.pig.builtin.PigStorage) - scope-69
+|
+|---nyse_savedata: New For Each(false,false,false,false,false,false,false,false,false,false)[bag] - scope-68
+    |   |
+    |   Project[chararray][0] - scope-48
+    |   |
+    |   Project[chararray][1] - scope-50
+    |   |
+    |   Project[chararray][2] - scope-52
+    |   |
+    |   Project[float][3] - scope-54
+    |   |
+    |   Project[float][4] - scope-56
+    |   |
+    |   Project[float][5] - scope-58
+    |   |
+    |   Project[float][6] - scope-60
+    |   |
+    |   Project[long][7] - scope-62
+    |   |
+    |   Project[float][8] - scope-64
+    |   |
+    |   Project[float][10] - scope-66
+    |
+    |---POJoinPackage(true,true)[tuple] - scope-74--------
+Global sort: false
+----------------
+

@@ -1,0 +1,2 @@
+/pig/pigscripts$ pig -x local -e 'explain -script dividend.pig'
+

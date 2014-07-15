@@ -1,0 +1,525 @@
+#-----------------------------------------------
+# New Logical Plan:
+#-----------------------------------------------
+digraph plan {
+compound=true;
+node [shape=rect];
+21249250 [label="LOStore", style="filled", fillcolor="gray"];
+s22716157_in [label="", style=invis, height=0, width=0];
+s22716157_out [label="", style=invis, height=0, width=0];
+subgraph cluster_22716157 {
+label="LOForEach"labelloc=b;
+10292190 [label="LOInnerLoad"];
+29649111 [label="LOInnerLoad"];
+29304901 [label="LOInnerLoad"];
+15522379 [label="LOInnerLoad"];
+32477747 [label="LOInnerLoad"];
+23554779 [label="LOInnerLoad"];
+9985252 [label="LOInnerLoad"];
+16427039 [label="LOInnerLoad"];
+3390448 [label="LOInnerLoad"];
+7837440 [label="LOInnerLoad"];
+s7752005_in [label="", style=invis, height=0, width=0];
+s7752005_out [label="", style=invis, height=0, width=0];
+subgraph cluster_7752005 {
+label="LOGenerate"labelloc=b;
+13288987 [label="Project0:(*)"];
+s7752005_in -> 13288987 [style=invis];
+9713361 [label="Project1:(*)"];
+s7752005_in -> 9713361 [style=invis];
+10161691 [label="Project2:(*)"];
+s7752005_in -> 10161691 [style=invis];
+29048873 [label="Project3:(*)"];
+s7752005_in -> 29048873 [style=invis];
+7436006 [label="Project4:(*)"];
+s7752005_in -> 7436006 [style=invis];
+20251546 [label="Project5:(*)"];
+s7752005_in -> 20251546 [style=invis];
+25131842 [label="Project6:(*)"];
+s7752005_in -> 25131842 [style=invis];
+7691279 [label="Project7:(*)"];
+s7752005_in -> 7691279 [style=invis];
+15669905 [label="Project8:(*)"];
+s7752005_in -> 15669905 [style=invis];
+28923726 [label="Project9:(*)"];
+s7752005_in -> 28923726 [style=invis];
+};
+13288987 -> s7752005_out [style=invis];
+9713361 -> s7752005_out [style=invis];
+10161691 -> s7752005_out [style=invis];
+29048873 -> s7752005_out [style=invis];
+7436006 -> s7752005_out [style=invis];
+20251546 -> s7752005_out [style=invis];
+25131842 -> s7752005_out [style=invis];
+7691279 -> s7752005_out [style=invis];
+15669905 -> s7752005_out [style=invis];
+28923726 -> s7752005_out [style=invis];
+10292190 -> s7752005_in [lhead=cluster_7752005]
+29649111 -> s7752005_in [lhead=cluster_7752005]
+29304901 -> s7752005_in [lhead=cluster_7752005]
+15522379 -> s7752005_in [lhead=cluster_7752005]
+32477747 -> s7752005_in [lhead=cluster_7752005]
+23554779 -> s7752005_in [lhead=cluster_7752005]
+9985252 -> s7752005_in [lhead=cluster_7752005]
+16427039 -> s7752005_in [lhead=cluster_7752005]
+3390448 -> s7752005_in [lhead=cluster_7752005]
+7837440 -> s7752005_in [lhead=cluster_7752005]
+s22716157_in -> 10292190 [style=invis];
+s22716157_in -> 29649111 [style=invis];
+s22716157_in -> 29304901 [style=invis];
+s22716157_in -> 15522379 [style=invis];
+s22716157_in -> 32477747 [style=invis];
+s22716157_in -> 23554779 [style=invis];
+s22716157_in -> 9985252 [style=invis];
+s22716157_in -> 16427039 [style=invis];
+s22716157_in -> 3390448 [style=invis];
+s22716157_in -> 7837440 [style=invis];
+};
+s7752005_out -> s22716157_out [style=invis];
+s32019374_out [label="", style=invis, height=0, width=0];
+subgraph cluster_32019374 {
+label="LOJoin(HASH)"labelloc=b;
+subgraph cluster_32019374_19522730 {
+label="";
+s32019374_19522730_in [label="", style=invis, height=0, width=0];
+25106017 [label="Project0:1"];
+s32019374_19522730_in -> 25106017 [style=invis];
+};
+subgraph cluster_32019374_3824837 {
+label="";
+s32019374_3824837_in [label="", style=invis, height=0, width=0];
+9852868 [label="Project1:0"];
+s32019374_3824837_in -> 9852868 [style=invis];
+};
+};
+25106017 -> s32019374_out [style=invis];
+9852868 -> s32019374_out [style=invis];
+326810 [label="LOLoad", style="filled", fillcolor="gray"];
+23333760 [label="LOLoad", style="filled", fillcolor="gray"];
+s19522730_in [label="", style=invis, height=0, width=0];
+s19522730_out [label="", style=invis, height=0, width=0];
+subgraph cluster_19522730 {
+label="LOForEach"labelloc=b;
+s488841_in [label="", style=invis, height=0, width=0];
+s488841_out [label="", style=invis, height=0, width=0];
+subgraph cluster_488841 {
+label="LOGenerate"labelloc=b;
+7406609 [label="Project0:(*)"];
+28669545 [label="Cast"];
+7406609 -> 28669545
+s488841_in -> 7406609 [style=invis];
+18636486 [label="Project1:(*)"];
+25621625 [label="Cast"];
+18636486 -> 25621625
+s488841_in -> 18636486 [style=invis];
+24515430 [label="Project2:(*)"];
+21141928 [label="Cast"];
+24515430 -> 21141928
+s488841_in -> 24515430 [style=invis];
+29644809 [label="Project3:(*)"];
+12453658 [label="Cast"];
+29644809 -> 12453658
+s488841_in -> 29644809 [style=invis];
+33549157 [label="Project4:(*)"];
+13406200 [label="Cast"];
+33549157 -> 13406200
+s488841_in -> 33549157 [style=invis];
+6009544 [label="Project5:(*)"];
+18493527 [label="Cast"];
+6009544 -> 18493527
+s488841_in -> 6009544 [style=invis];
+18307772 [label="Project6:(*)"];
+31936395 [label="Cast"];
+18307772 -> 31936395
+s488841_in -> 18307772 [style=invis];
+5956121 [label="Project7:(*)"];
+29987119 [label="Cast"];
+5956121 -> 29987119
+s488841_in -> 5956121 [style=invis];
+17549801 [label="Project8:(*)"];
+8631722 [label="Cast"];
+17549801 -> 8631722
+s488841_in -> 17549801 [style=invis];
+};
+28669545 -> s488841_out [style=invis];
+25621625 -> s488841_out [style=invis];
+21141928 -> s488841_out [style=invis];
+12453658 -> s488841_out [style=invis];
+13406200 -> s488841_out [style=invis];
+18493527 -> s488841_out [style=invis];
+31936395 -> s488841_out [style=invis];
+29987119 -> s488841_out [style=invis];
+8631722 -> s488841_out [style=invis];
+23302660 [label="LOInnerLoad"];
+29503151 [label="LOInnerLoad"];
+26360463 [label="LOInnerLoad"];
+15976379 [label="LOInnerLoad"];
+24113990 [label="LOInnerLoad"];
+12019764 [label="LOInnerLoad"];
+3577552 [label="LOInnerLoad"];
+4591636 [label="LOInnerLoad"];
+11665804 [label="LOInnerLoad"];
+23302660 -> s488841_in [lhead=cluster_488841]
+29503151 -> s488841_in [lhead=cluster_488841]
+26360463 -> s488841_in [lhead=cluster_488841]
+15976379 -> s488841_in [lhead=cluster_488841]
+24113990 -> s488841_in [lhead=cluster_488841]
+12019764 -> s488841_in [lhead=cluster_488841]
+3577552 -> s488841_in [lhead=cluster_488841]
+4591636 -> s488841_in [lhead=cluster_488841]
+11665804 -> s488841_in [lhead=cluster_488841]
+s19522730_in -> 23302660 [style=invis];
+s19522730_in -> 29503151 [style=invis];
+s19522730_in -> 26360463 [style=invis];
+s19522730_in -> 15976379 [style=invis];
+s19522730_in -> 24113990 [style=invis];
+s19522730_in -> 12019764 [style=invis];
+s19522730_in -> 3577552 [style=invis];
+s19522730_in -> 4591636 [style=invis];
+s19522730_in -> 11665804 [style=invis];
+};
+s488841_out -> s19522730_out [style=invis];
+s3824837_in [label="", style=invis, height=0, width=0];
+s3824837_out [label="", style=invis, height=0, width=0];
+subgraph cluster_3824837 {
+label="LOForEach"labelloc=b;
+s8537645_in [label="", style=invis, height=0, width=0];
+s8537645_out [label="", style=invis, height=0, width=0];
+subgraph cluster_8537645 {
+label="LOGenerate"labelloc=b;
+13317001 [label="Project0:(*)"];
+16241959 [label="Cast"];
+13317001 -> 16241959
+s8537645_in -> 13317001 [style=invis];
+16483850 [label="Project1:(*)"];
+23635024 [label="Cast"];
+16483850 -> 23635024
+s8537645_in -> 16483850 [style=invis];
+};
+16241959 -> s8537645_out [style=invis];
+23635024 -> s8537645_out [style=invis];
+29031429 [label="LOInnerLoad"];
+4477460 [label="LOInnerLoad"];
+29031429 -> s8537645_in [lhead=cluster_8537645]
+4477460 -> s8537645_in [lhead=cluster_8537645]
+s3824837_in -> 29031429 [style=invis];
+s3824837_in -> 4477460 [style=invis];
+};
+s8537645_out -> s3824837_out [style=invis];
+s22716157_out -> 21249250
+s32019374_out -> s22716157_in [lhead=cluster_22716157]
+326810 -> s19522730_in [lhead=cluster_19522730]
+23333760 -> s3824837_in [lhead=cluster_3824837]
+s19522730_out -> s32019374_19522730_in [lhead=cluster_32019374_19522730]
+s3824837_out -> s32019374_3824837_in [lhead=cluster_32019374_3824837]
+}
+#-----------------------------------------------
+# Physical Plan:
+#-----------------------------------------------
+digraph plan {
+compound=true;
+node [shape=rect];
+487399204 [label="nyse_savedata: Store(/stocksjoindata,\norg.apache.pig.builtin.PigStorage)", style="filled", fillcolor="gray"];
+s487399272_in [label="", style=invis, height=0, width=0];
+s487399272_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399272 {
+label="nyse_joindata: Local Rearrange[tuple]{chararray}(false)"labelloc=b;
+487399271 [label="Project[chararray][0]"];
+s487399272_in -> 487399271 [style=invis];
+};
+487399271 -> s487399272_out [style=invis];
+s487399205_in [label="", style=invis, height=0, width=0];
+s487399205_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399205 {
+label="nyse_savedata: New For Each(false,false,false,false,false,false,false,false,false,false)[bag]"labelloc=b;
+487399267 [label="Project[chararray][0]"];
+s487399205_in -> 487399267 [style=invis];
+487399244 [label="Project[chararray][1]"];
+s487399205_in -> 487399244 [style=invis];
+487399242 [label="Project[chararray][2]"];
+s487399205_in -> 487399242 [style=invis];
+487399240 [label="Project[float][3]"];
+s487399205_in -> 487399240 [style=invis];
+487399238 [label="Project[float][4]"];
+s487399205_in -> 487399238 [style=invis];
+487399236 [label="Project[float][5]"];
+s487399205_in -> 487399236 [style=invis];
+487399213 [label="Project[float][6]"];
+s487399205_in -> 487399213 [style=invis];
+487399211 [label="Project[long][7]"];
+s487399205_in -> 487399211 [style=invis];
+487399209 [label="Project[float][8]"];
+s487399205_in -> 487399209 [style=invis];
+487399207 [label="Project[float][10]"];
+s487399205_in -> 487399207 [style=invis];
+};
+487399267 -> s487399205_out [style=invis];
+487399244 -> s487399205_out [style=invis];
+487399242 -> s487399205_out [style=invis];
+487399240 -> s487399205_out [style=invis];
+487399238 -> s487399205_out [style=invis];
+487399236 -> s487399205_out [style=invis];
+487399213 -> s487399205_out [style=invis];
+487399211 -> s487399205_out [style=invis];
+487399209 -> s487399205_out [style=invis];
+487399207 -> s487399205_out [style=invis];
+487399328 [label="nyse_dividend: Load(/pigdata/NYSE_dividends,\norg.apache.pig.builtin.PigStorage)", style="filled", fillcolor="gray"];
+1923940087 [label="nyse_data: Load(/pigdata/NYSE_daily,\norg.apache.pig.builtin.PigStorage)", style="filled", fillcolor="gray"];
+s487399268_in [label="", style=invis, height=0, width=0];
+s487399268_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399268 {
+label="nyse_joindata: New For Each(true,true)[tuple]"labelloc=b;
+487399270 [label="Project[bag][1]"];
+s487399268_in -> 487399270 [style=invis];
+487399269 [label="Project[bag][2]"];
+s487399268_in -> 487399269 [style=invis];
+};
+487399270 -> s487399268_out [style=invis];
+487399269 -> s487399268_out [style=invis];
+s487399300_in [label="", style=invis, height=0, width=0];
+s487399300_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399300 {
+label="nyse_dividend: New For Each(false,false)[bag]"labelloc=b;
+487399306 [label="Project[bytearray][0]"];
+487399305 [label="Cast[chararray]"];
+487399306 -> 487399305
+s487399300_in -> 487399306 [style=invis];
+487399303 [label="Project[bytearray][1]"];
+487399302 [label="Cast[float]"];
+487399303 -> 487399302
+s487399300_in -> 487399303 [style=invis];
+};
+487399305 -> s487399300_out [style=invis];
+487399302 -> s487399300_out [style=invis];
+s487399329_in [label="", style=invis, height=0, width=0];
+s487399329_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399329 {
+label="nyse_data: New For Each(false,false,false,false,false,false,false,false,false)[bag]"labelloc=b;
+1923940088 [label="Project[bytearray][0]"];
+1923940089 [label="Cast[chararray]"];
+1923940088 -> 1923940089
+s487399329_in -> 1923940088 [style=invis];
+1923940091 [label="Project[bytearray][1]"];
+1923940092 [label="Cast[chararray]"];
+1923940091 -> 1923940092
+s487399329_in -> 1923940091 [style=invis];
+1923940094 [label="Project[bytearray][2]"];
+1923940095 [label="Cast[chararray]"];
+1923940094 -> 1923940095
+s487399329_in -> 1923940094 [style=invis];
+487399368 [label="Project[bytearray][3]"];
+487399367 [label="Cast[float]"];
+487399368 -> 487399367
+s487399329_in -> 487399368 [style=invis];
+487399365 [label="Project[bytearray][4]"];
+487399364 [label="Cast[float]"];
+487399365 -> 487399364
+s487399329_in -> 487399365 [style=invis];
+487399362 [label="Project[bytearray][5]"];
+487399361 [label="Cast[float]"];
+487399362 -> 487399361
+s487399329_in -> 487399362 [style=invis];
+487399337 [label="Cast[float]"];
+487399359 [label="Project[bytearray][6]"];
+487399359 -> 487399337
+s487399329_in -> 487399359 [style=invis];
+487399334 [label="Cast[long]"];
+487399335 [label="Project[bytearray][7]"];
+487399335 -> 487399334
+s487399329_in -> 487399335 [style=invis];
+487399332 [label="Project[bytearray][8]"];
+487399331 [label="Cast[float]"];
+487399332 -> 487399331
+s487399329_in -> 487399332 [style=invis];
+};
+1923940089 -> s487399329_out [style=invis];
+1923940092 -> s487399329_out [style=invis];
+1923940095 -> s487399329_out [style=invis];
+487399367 -> s487399329_out [style=invis];
+487399364 -> s487399329_out [style=invis];
+487399361 -> s487399329_out [style=invis];
+487399337 -> s487399329_out [style=invis];
+487399334 -> s487399329_out [style=invis];
+487399331 -> s487399329_out [style=invis];
+487399297 [label="nyse_joindata: Global Rearrange[tuple]"];
+s487399274_in [label="", style=invis, height=0, width=0];
+s487399274_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399274 {
+label="nyse_joindata: Local Rearrange[tuple]{chararray}(false)"labelloc=b;
+487399273 [label="Project[chararray][1]"];
+s487399274_in -> 487399273 [style=invis];
+};
+487399273 -> s487399274_out [style=invis];
+487399275 [label="nyse_joindata: Package[tuple]{chararray}"];
+s487399272_out -> 487399297
+s487399205_out -> 487399204
+487399328 -> s487399300_in [lhead=cluster_487399300]
+1923940087 -> s487399329_in [lhead=cluster_487399329]
+s487399268_out -> s487399205_in [lhead=cluster_487399205]
+s487399300_out -> s487399272_in [lhead=cluster_487399272]
+s487399329_out -> s487399274_in [lhead=cluster_487399274]
+487399297 -> 487399275
+s487399274_out -> 487399297
+487399275 -> s487399268_in [lhead=cluster_487399268]
+}
+
+#--------------------------------------------------
+# Map Reduce Plan                                  
+#--------------------------------------------------
+digraph plan {
+compound=true;
+node [shape=rect];
+s487399180_in [label="", style=invis, height=0, width=0];
+s487399180_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399180 {
+label="Map - Reduce, Global Sort: false"; style="filled"; fillcolor="#EEEEEE"labelloc=b;
+s0_in [label="", style=invis, height=0, width=0];
+s0_out [label="", style=invis, height=0, width=0];
+subgraph cluster_0 {
+label="Map"; style="filled"; fillcolor="white"labelloc=b;
+s487399272_in [label="", style=invis, height=0, width=0];
+s487399272_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399272 {
+label="nyse_joindata: Local Rearrange[tuple]{chararray}(false)"labelloc=b;
+487399271 [label="Project[chararray][0]"];
+s487399272_in -> 487399271 [style=invis];
+};
+487399271 -> s487399272_out [style=invis];
+487399328 [label="nyse_dividend: Load(/pigdata/NYSE_dividends,\norg.apache.pig.builtin.PigStorage)", style="filled", fillcolor="gray"];
+1923940087 [label="nyse_data: Load(/pigdata/NYSE_daily,\norg.apache.pig.builtin.PigStorage)", style="filled", fillcolor="gray"];
+487399179 [label="Union[tuple]"];
+s487399300_in [label="", style=invis, height=0, width=0];
+s487399300_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399300 {
+label="nyse_dividend: New For Each(false,false)[bag]"labelloc=b;
+487399306 [label="Project[bytearray][0]"];
+487399305 [label="Cast[chararray]"];
+487399306 -> 487399305
+s487399300_in -> 487399306 [style=invis];
+487399303 [label="Project[bytearray][1]"];
+487399302 [label="Cast[float]"];
+487399303 -> 487399302
+s487399300_in -> 487399303 [style=invis];
+};
+487399305 -> s487399300_out [style=invis];
+487399302 -> s487399300_out [style=invis];
+s487399329_in [label="", style=invis, height=0, width=0];
+s487399329_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399329 {
+label="nyse_data: New For Each(false,false,false,false,false,false,false,false,false)[bag]"labelloc=b;
+1923940088 [label="Project[bytearray][0]"];
+1923940089 [label="Cast[chararray]"];
+1923940088 -> 1923940089
+s487399329_in -> 1923940088 [style=invis];
+1923940091 [label="Project[bytearray][1]"];
+1923940092 [label="Cast[chararray]"];
+1923940091 -> 1923940092
+s487399329_in -> 1923940091 [style=invis];
+1923940094 [label="Project[bytearray][2]"];
+1923940095 [label="Cast[chararray]"];
+1923940094 -> 1923940095
+s487399329_in -> 1923940094 [style=invis];
+487399368 [label="Project[bytearray][3]"];
+487399367 [label="Cast[float]"];
+487399368 -> 487399367
+s487399329_in -> 487399368 [style=invis];
+487399365 [label="Project[bytearray][4]"];
+487399364 [label="Cast[float]"];
+487399365 -> 487399364
+s487399329_in -> 487399365 [style=invis];
+487399362 [label="Project[bytearray][5]"];
+487399361 [label="Cast[float]"];
+487399362 -> 487399361
+s487399329_in -> 487399362 [style=invis];
+487399337 [label="Cast[float]"];
+487399359 [label="Project[bytearray][6]"];
+487399359 -> 487399337
+s487399329_in -> 487399359 [style=invis];
+487399334 [label="Cast[long]"];
+487399335 [label="Project[bytearray][7]"];
+487399335 -> 487399334
+s487399329_in -> 487399335 [style=invis];
+487399332 [label="Project[bytearray][8]"];
+487399331 [label="Cast[float]"];
+487399332 -> 487399331
+s487399329_in -> 487399332 [style=invis];
+};
+1923940089 -> s487399329_out [style=invis];
+1923940092 -> s487399329_out [style=invis];
+1923940095 -> s487399329_out [style=invis];
+487399367 -> s487399329_out [style=invis];
+487399364 -> s487399329_out [style=invis];
+487399361 -> s487399329_out [style=invis];
+487399337 -> s487399329_out [style=invis];
+487399334 -> s487399329_out [style=invis];
+487399331 -> s487399329_out [style=invis];
+s487399274_in [label="", style=invis, height=0, width=0];
+s487399274_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399274 {
+label="nyse_joindata: Local Rearrange[tuple]{chararray}(false)"labelloc=b;
+487399273 [label="Project[chararray][1]"];
+s487399274_in -> 487399273 [style=invis];
+};
+487399273 -> s487399274_out [style=invis];
+s487399272_out -> 487399179
+487399328 -> s487399300_in [lhead=cluster_487399300]
+1923940087 -> s487399329_in [lhead=cluster_487399329]
+s487399300_out -> s487399272_in [lhead=cluster_487399272]
+s487399329_out -> s487399274_in [lhead=cluster_487399274]
+s487399274_out -> 487399179
+s0_in -> 487399328 [style=invis];
+s0_in -> 1923940087 [style=invis];
+};
+487399179 -> s0_out [style=invis];
+s1_in [label="", style=invis, height=0, width=0];
+s1_out [label="", style=invis, height=0, width=0];
+subgraph cluster_1 {
+label="Reduce"; style="filled"; fillcolor="white"labelloc=b;
+487399204 [label="nyse_savedata: Store(/stocksjoindata,\norg.apache.pig.builtin.PigStorage)", style="filled", fillcolor="gray"];
+s487399205_in [label="", style=invis, height=0, width=0];
+s487399205_out [label="", style=invis, height=0, width=0];
+subgraph cluster_487399205 {
+label="nyse_savedata: New For Each(false,false,false,false,false,false,false,false,false,false)[bag]"labelloc=b;
+487399267 [label="Project[chararray][0]"];
+s487399205_in -> 487399267 [style=invis];
+487399244 [label="Project[chararray][1]"];
+s487399205_in -> 487399244 [style=invis];
+487399242 [label="Project[chararray][2]"];
+s487399205_in -> 487399242 [style=invis];
+487399240 [label="Project[float][3]"];
+s487399205_in -> 487399240 [style=invis];
+487399238 [label="Project[float][4]"];
+s487399205_in -> 487399238 [style=invis];
+487399236 [label="Project[float][5]"];
+s487399205_in -> 487399236 [style=invis];
+487399213 [label="Project[float][6]"];
+s487399205_in -> 487399213 [style=invis];
+487399211 [label="Project[long][7]"];
+s487399205_in -> 487399211 [style=invis];
+487399209 [label="Project[float][8]"];
+s487399205_in -> 487399209 [style=invis];
+487399207 [label="Project[float][10]"];
+s487399205_in -> 487399207 [style=invis];
+};
+487399267 -> s487399205_out [style=invis];
+487399244 -> s487399205_out [style=invis];
+487399242 -> s487399205_out [style=invis];
+487399240 -> s487399205_out [style=invis];
+487399238 -> s487399205_out [style=invis];
+487399236 -> s487399205_out [style=invis];
+487399213 -> s487399205_out [style=invis];
+487399211 -> s487399205_out [style=invis];
+487399209 -> s487399205_out [style=invis];
+487399207 -> s487399205_out [style=invis];
+487399178 [label="POJoinPackage(true,true)[tuple]"];
+s487399205_out -> 487399204
+487399178 -> s487399205_in [lhead=cluster_487399205]
+s1_in -> 487399178 [style=invis];
+};
+487399204 -> s1_out [style=invis];
+s0_out -> s1_in [lhead=cluster_1]
+s487399180_in -> s0_in [style=invis];
+};
+s1_out -> s487399180_out [style=invis];
+}
+
