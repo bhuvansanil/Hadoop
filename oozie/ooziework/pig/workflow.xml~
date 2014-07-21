@@ -1,0 +1,31 @@
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="pig-wf">
+    <start to="pig-node"/>
+    <action name="pig-node">
+        <pig>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+                <delete path="${nameNode}/user/${wf:user()}/pig-outdata"/>
+            </prepare>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+                <property>
+                    <name>mapred.compress.map.output</name>
+                    <value>true</value>
+                </property>
+            </configuration>
+            <script>id.pig</script>
+            <param>INPUT=/data/NYSE_daily</param>
+            <param>OUTPUT=/user/${wf:user()}/pig-outdata</param>
+        </pig>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+    <kill name="fail">
+        <message>Pig failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

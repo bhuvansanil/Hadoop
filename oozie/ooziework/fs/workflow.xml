@@ -1,0 +1,14 @@
+<workflow-app xmlns="uri:oozie:workflow:0.1" name="fs-wf">
+    <start to="fs-node"/>
+    <action name="fs-node">
+        <fs>
+            <delete path='${nameNode}/${deldir}'/>
+        </fs>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+    <kill name="fail">
+        <message>fs failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

@@ -1,0 +1,13 @@
+#
+# Stock MR job properties
+#
+nameNode=hdfs://bhuvan:9000
+jobTracker=bhuvan:9001
+queueName=default
+oozie.use.system.libpath=true 
+
+oozie.wf.application.path=${nameNode}/user/hduser/ooziework/fsdistcpmap/ 
+inputdir=data
+outputdir=mapstockout2
+distcpoutdir=distcpout
+

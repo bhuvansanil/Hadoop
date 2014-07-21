@@ -1,0 +1,8 @@
+nameNode=hdfs://bhuvan:9000
+jobTracker=bhuvan:9001
+queueName=default
+examplesRoot=examples
+
+oozie.use.system.libpath=true
+
+oozie.wf.application.path=${nameNode}/user/${user.name}/ooziework/sqoop

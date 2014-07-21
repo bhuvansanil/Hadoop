@@ -1,0 +1,1 @@
+sqoop import --connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE --username root -password mostwanted12 --table STOCK_NAME -m 1 --target-dir /sqoopdata

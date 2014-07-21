@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="sqoop-wf">
+    <start to="sqoop-node"/>
+
+    <action name="sqoop-node">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+                <delete path="${nameNode}/sqoopdata"/>
+            </prepare>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <command>import --connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE --username root -password mostwanted12 --table STOCK_NAME -m 1 --target-dir /sqoopdata</command>
+        </sqoop>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+
+    <kill name="fail">
+        <message>Sqoop failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
