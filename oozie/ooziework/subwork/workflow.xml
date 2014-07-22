@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="stock-job-wf">
+    <start to="mr-node"/>
+    <action name="mr-node">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+                <delete path="${nameNode}/${mapoutputdir}"/>
+            </prepare>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+	 <main-class>com.hadoop.example.StockMapReduce</main-class>
+	<arg>/${inputdir}</arg>
+	<arg>/${mapoutputdir}</arg>		    
+	</java>
+        <ok to="distcp-node"/>
+        <error to="failmr"/>
+    </action>
+    <kill name="failmr">
+        <message>Map/Reduce failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+	<action name="distcp-node">
+        <distcp xmlns="uri:oozie:distcp-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+                <delete path="${nameNode}/user/${wf:user()}/${distcpdir}"/>
+            </prepare>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <arg>${nameNode}/${mapoutputdir}/part-r-00000</arg>
+            <arg>${nameNode}/user/${wf:user()}/${distcpdir}/</arg>
+            </distcp>
+        <ok to="forking"/>
+        <error to="faildistcp"/>
+    </action>
+    <kill name="faildistcp">
+        <message>DistCP failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <fork name="forking">
+        <path start="sqoop-node"/>
+        <path start="hive-node"/>
+    </fork>
+    <action name="sqoop-node">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+                <delete path="${nameNode}/user/${wf:user()}/sqoopdata"/>
+            </prepare>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <command>import --connect jdbc:mysql://localhost:3306/TESTDB --username root -password mostwanted12 --table STOCK_NAME -m 1 --target-dir /user/hduser/sqoopdata</command>
+        </sqoop>
+        <ok to="pig-node"/>
+        <error to="failsqoop"/>
+    </action>
+    <kill name="failsqoop">
+        <message>Sqoop failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+ <action name="pig-node">
+        <pig>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+                <delete path="${nameNode}/user/${wf:user()}/pig-outdata"/>
+            </prepare>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <script>load_data.pig</script>
+            <param>INPUT=/user/hduser/distcpdir</param>
+	    <param>JDATA=/user/hduser/sqoopdata/part-m-00000</param>
+            <param>OUTPUT=/user/${wf:user()}/pig-outdata</param>
+        </pig>
+        <ok to="joining"/>
+        <error to="failpig"/>
+    </action>
+    <kill name="failpig">
+        <message>Pig failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+	<action name="hive-node">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <job-xml>${nameNode}/user/hduser/share/hive-site.xml</job-xml>
+	    <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <script>createtable.q</script>
+        </hive>
+        <ok to="joining"/>
+        <error to="failhivec"/>
+    </action>
+    <kill name="failhivec">
+        <message>Hive failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <join name="joining" to="loadhive"/>
+    <action name="loadhive">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <job-xml>${nameNode}/user/hduser/share/hive-site.xml</job-xml>
+	    <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <script>load.q</script>
+        </hive>
+        <ok to="check-name"/>
+        <error to="failload"/>
+    </action>
+    <kill name="failload">
+        <message>Hive failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>	
+    <decision name="check-name">
+        <switch>
+            <case to="subwork-node">
+                ${wf:user() eq 'hduser'}
+            </case>
+            <default to="subwork-node"/>
+        </switch>
+    </decision>
+    <action name="subwork-node">
+       <sub-workflow>
+            <app-path>${nameNode}/user/hduser/ooziework/subwork/subwork.xml</app-path>
+            <propagate-configuration/>
+     </sub-workflow>
+        <ok to="end"/>
+        <error to="failsub"/>
+    </action>
+    <kill name="failsub">
+        <message>sub work  failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

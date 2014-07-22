@@ -1,0 +1,15 @@
+nameNode=hdfs://bhuvan:9000
+jobTracker=bhuvan:9001
+queueName=default
+oozie.use.system.libpath=true 
+
+
+oozie.coord.application.path=${nameNode}/user/${user.name}/ooziework/cord
+start=2014-07-22T16:00Z
+end=2014-07-22T17:00Z
+workflowAppUri=${nameNode}/user/${user.name}/ooziework/cord
+inputdir=data
+mapoutputdir=mrdata
+distcpdir=distcpdir
+outputdir=stockoutdir
+
