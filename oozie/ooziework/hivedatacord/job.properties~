@@ -1,0 +1,11 @@
+nameNode=hdfs://bhuvan:9000
+jobTracker=bhuvan:9001
+queueName=default
+
+oozie.coord.application.path=${nameNode}/user/${user.name}/ooziework/hivedatacord
+start=2014-07-24T10:40Z
+end=2014-07-24T11:41Z
+hiveshellscript=hiveshell.sh
+filepath=${nameNode}/user/hduser/ooziework/hiveshell/hiveshell.sh
+workflowAppUri=${nameNode}/user/${user.name}/ooziework/hivedatacord	
+oozie.use.system.libpath=true

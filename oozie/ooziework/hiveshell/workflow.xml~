@@ -1,0 +1,41 @@
+<workflow-app name="WorkFlowForShellhiveaction" xmlns="uri:oozie:workflow:0.1">
+    <start to="shellAction"/>
+    <action name="shellAction">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                  <name>mapred.job.queue.name</name>
+                  <value>${queueName}</value>
+                </property>
+            </configuration>
+            <exec>${hiveshellscript}</exec>
+	    <file>${filepath}#${hiveshellscript}</file>	
+	    <capture-output/>		
+        </shell>
+	<ok to="hiveaction"/>
+        <error to="killAction"/>
+    </action>
+    <action name="hiveaction">
+        <hive xmlns="uri:oozie:hive-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <job-xml>${nameNode}/user/hduser/share/hive-site.xml</job-xml>
+	    <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <script>loadtable.q</script>
+	    <param>MYDATE=${wf:actionData('shellAction')['DATE_YEST']}</param>
+        </hive>
+        <ok to="end"/>
+        <error to="killAction"/>
+    </action>
+    <kill name="killAction">
+        <message>"Killed job due to error"</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

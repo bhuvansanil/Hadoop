@@ -1,0 +1,10 @@
+nameNode=hdfs://bhuvan:9000
+jobTracker=bhuvan:9001
+queueName=default
+
+oozie.wf.application.path=${nameNode}/user/${user.name}/ooziework/hiveshell
+hiveshellscript=hiveshell.sh
+filepath=${nameNode}/user/hduser/ooziework/hiveshell/hiveshell.sh
+hiveshellscript=hiveshell.sh	
+emailToAddress=bhuvansanil@gmail.com
+oozie.use.system.libpath=true

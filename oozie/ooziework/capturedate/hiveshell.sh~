@@ -1,0 +1,5 @@
+#!/bin/bash
+DATE_YEST=`TZ=GMT+48 date +%Y%m%d%H%M%S`
+#echo $DATE_YEST
+hive -S -e "load data inpath '/data/NYSE_daily' into table stock_database.stock_partition_table partition(current_date_time = '$DATE_YEST');"
+
