@@ -1,0 +1,113 @@
+sqoop export \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE2 \
+--export-dir /user/hduser/STOCK_TRANS_TABLE
+
+
+21.6177
+
+---------------------------------------
+BTACH INSERT
+---------------------------------------
+
+sqoop export \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE2 \
+--export-dir /user/hduser/STOCK_TRANS_TABLE \
+--batch
+
+21.6013
+
+
+sqoop export \
+-Dsqoop.export.records.per.statement=57391 \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE2 \
+--export-dir /user/hduser/STOCK_TRANS_TABLE \
+--batch
+
+22.4244
+
+
+-----------------------------
+
+Exporting with All-or-Nothing Semantics
+
+---------------------------------------
+
+
+You need to ensure that Sqoop will either export all data from Hadoop to your database
+or export no data
+
+sqoop export \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--table cities \
+--staging-table staging_cities
+
+++++++++++++++++++++++++++++++++++++++++
+Updating an Existing Data Set
+=---------------------------------------------
+
+sqoop export \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--table cities \
+--update-key id
+
+---------------------------------------------
+Updating or Inserting at the Same Time
+----------------------------------------------
+sqoop export \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--table cities \
+--update-key id \
+--update-mode allowinsert
+
+------------------------------------------------
+
+Using Stored Procedures
+
+-----------------------------------------------
+sqoop export \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--call populate_cities
+
+--------------------------------------
+Exporting into a Subset of Columns-
+---------------------------------------
+
+sqoop export \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--table cities \
+--columns country,city
+
+--------------------------------------------
+Encoding the NULL Value Differently
+--------------------------------------------
+
+sqoop export \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--table cities \
+--input-null-string '\\N' \
+--input-null-non-string '\\N'
+
+
+
+

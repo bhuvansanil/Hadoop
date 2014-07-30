@@ -1,0 +1,57 @@
+--basic import - imported to default database
+
+sqoop import --connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE --username root --password mostwanted12 --table STOCK_TRANS_TABLE -m 1--hive-import
+
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--hive-import \
+--create-hive-table \
+--hive-table stock_mysql \
+--target-dir /user/hduser/warehouse/ \
+--fields-terminated-by , \
+
+
+---------
+
+PARTITION IMPORT
+
+0---------
+
+
+$ sqoop import \
+--connect jdbc:mysql://airawat-mySqlServer-node/employees \
+--username myUID \
+--password myPWD \
+--query 'select emp_no,birth_date,first_name,last_name,hire_date from employees where gender="F" AND $CONDITIONS'  \
+--direct \
+-m 6 \
+--split-by emp_no \
+--hive-import \
+--hive-overwrite \
+--hive-table employees_import_parts \
+--target-dir /user/hive/warehouse/employee-parts_F \
+--hive-partition-key gender \
+--hive-partition-value 'F' \
+--enclosed-by '\"' \
+--fields-terminated-by , \
+--escaped-by \\ \
+
+
+-----------------------
+sqoop import \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--table cities \
+--hive-import \
+--hive-partition-key day \
+--hive-partition-value "2013-05-22"
+
+
+
+

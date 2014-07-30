@@ -1,0 +1,487 @@
+--Importng data from mysql using sqoop
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE
+
+This command will not work becaue table STOCK_TRANS_TABLE does not have a primary key. 
+to solve this : either give number of map task = 1 or add --split-by column_name..
+
+
+1) using --split-by
+
+
+sqoop import --connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE --username root --password mostwanted12 --split-by STOCK_SYMBOL --table STOCK_TRANS_TABLE
+
+by defalut 4 map task will run and records will be splitted according yo STCO_SYMBOL column. if primary key is present in table then records will be splited according to primary key
+
+
+2) using no of map task = 1 
+
+sqoop import --connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE --username root --password mostwanted12  --table STOCK_TRANS_TABLE -m 1
+
+1 map task is created and the table is impored to hdfs
+
+
+note: default file import format is csv
+
+----------------------------------------------------------------------------------------
+
+Specifying Directory
+
+----------------------------------------------------------------------------------------
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--target-dir /sqoopdata
+
+note: if the target dir is already present sqoop will fail
+
+
+--------------------------------------------------
+Specifing parent directory for all sqoop jobs
+--------------------------------------------------
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--warehouse-dir /sqoopdata1
+
+sqoop import --connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE --username root --password mostwanted12 --table STOCK_NAME -m 1 --warehouse-dir /sqoopdata1
+
+to see the difference in targer-dir and warehouse-dir i have imported 2 tables using warehouse-dir
+
+difference
+
+1) using --target-dir
+
+Found 3 items
+-rw-r--r--   1 hduser supergroup          0 2014-07-30 12:43 /sqoopdata/_SUCCESS
+drwxrwxrwx   - hduser supergroup          0 2014-07-30 12:43 /sqoopdata/_logs
+-rw-r--r--   1 hduser supergroup    3189248 2014-07-30 12:43 /sqoopdata/part-m-00000
+
+2) using --warehouse-dir
+
+Found 2 items
+drwxrwxrwx   - hduser supergroup          0 2014-07-30 12:50 /sqoopdata1/STOCK_NAME
+drwxrwxrwx   - hduser supergroup          0 2014-07-30 12:48 /sqoopdata1/STOCK_TRANS_TABLE
+
+
+------------------------------------------------------------------------
+importig only subset of data
+------------------------------------------------------------------------
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--target-dir /subsetsqoop \
+--where "STOCK_SYMBOL = 'CLI'" 
+
+------------------------
+
+protecting your passowrd
+
+-----------------------
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--P \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--target-dir /subsetsqoopp \
+--where "STOCK_SYMBOL = 'CLI'" 
+
+use -P instad of --password : wile executing the sqoop it will ask for password
+
+---using file with contains password
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password-file /sqoop-password \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--target-dir /subsetsqooppp \
+--where "STOCK_SYMBOL = 'CLI'" 
+
+
+-----------------------------------------
+
+using format other then csv
+
+-----------------------------------------
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--target-dir /subsetsqoopppppp \
+--where "STOCK_SYMBOL = 'CLI'" \
+--as-sequencefile 
+
+-other file formats : as-averodatafile
+
+-----------------------------------------
+
+compressing imported data
+
+-----------------------------------------
+
+-----------------------------------------
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--target-dir /subsetsqooppppppp \
+--where "STOCK_SYMBOL = 'CLI'" \
+--compress
+
+
+
+Splittable compress = BZip2,LZO
+Non Splittable compress = GZip,Snappy
+
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--target-dir /subsetsqoopppppppp \
+--where "STOCK_SYMBOL = 'CLI'" \
+--compress \
+--compression-codec org.apache.hadoop.io.compress.BZip2Codec
+
+
+------------------------------------------
+
+SPEEDING UP TRANSFERS
+
+--------------------------------------
+--direct is used to speed up the transfer using mysql:here mysqldump and mysqlimport is used to import the data
+
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--target-dir /subsetsqoopppppppp \
+--where "STOCK_SYMBOL = 'CLI'" \
+--compress \
+--direct
+
+-------------------------------------
+
+OVERRIDING TYPE MAPPINg
+
+--------------------------------------
+
+This will convert STOCK_VOLUME to long: in database it is saved as varchar
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE \
+--username root \
+--password mostwanted12 \
+--table STOCK_TRANS_TABLE \
+-m 1 \
+--target-dir /subsetsqooppppppppPP \
+--where "STOCK_SYMBOL = 'CLI'" \
+--map-column-java STOCK_VOLUME=Long \
+--compress \
+--direct
+
+-------------------------------------------
+
+Controlling Parallelism
+
+----------------------------------------------
+
+10 map taskes
+
+sqoop import --connect jdbc:mysql://localhost:3306/STOCK_DATA_BASE --username root --password mostwanted12 --split-by STOCK_SYMBOL --table STOCK_TRANS_TABLE -m 10 --target-dir /sqoopspliyby2
+
+
+-----------------------------
+
+encoding null values
+
+----------------------------
+
+CREATE TABLE NULLTABLE AS (
+SELECT * FROM STOCK_DATA_BASE.STOCK_TRANS_TABLE LEFT JOIN(TESTDB.STOCK_NAME) ON STOCK_DATA_BASE.STOCK_TRANS_TABLE.STOCK_SYMBOL = TESTDB.STOCK_NAME.CSYMBOL);
+
+above statement will create a null table with description
+
++-------------------+--------------+------+-----+---------+-------+
+| Field             | Type         | Null | Key | Default | Extra |
++-------------------+--------------+------+-----+---------+-------+
+| STOCK_EXCHANGE    | varchar(5)   | YES  |     | NULL    |       |
+| STOCK_SYMBOL      | varchar(5)   | YES  |     | NULL    |       |
+| STOCK_TRANS_DATE  | varchar(10)  | YES  |     | NULL    |       |
+| STOCK_OPEN_PRICE  | decimal(4,2) | YES  |     | NULL    |       |
+| STOCK_HIGH_PRICE  | decimal(4,2) | YES  |     | NULL    |       |
+| STOCK_LOW_PRICE   | decimal(4,2) | YES  |     | NULL    |       |
+| STOCK_CLOSE_PRICE | decimal(4,2) | YES  |     | NULL    |       |
+| STOCK_VOLUME      | varchar(15)  | YES  |     | NULL    |       |
+| STOCK_AVG_PRICE   | decimal(4,2) | YES  |     | NULL    |       |
+| CSYMBOL           | varchar(5)   | YES  |     | NULL    |       |
+| CNAME             | varchar(20)  | YES  |     | NULL    |       |
++-------------------+--------------+------+-----+---------+-------+
+
+
+CNAME will be null for most of the data
+
+while imorting without encoding null values
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/TESTDB \
+--username root \
+--password mostwanted12 \
+--table NULLTABLE \
+-m 1 \
+--target-dir /NULLTAB \
+--direct
+
+
+NYSE,CLI,2009-12-31,35.39,35.70,34.50,34.57,890100,34.12,NULL,NULL
+NYSE,CLI,2009-12-30,35.22,35.46,34.96,35.40,516900,34.94,NULL,NULL
+NYSE,CLI,2009-12-29,35.69,35.95,35.21,35.34,556500,34.88,NULL,NULL
+NYSE,CLI,2009-12-28,35.67,36.23,35.49,35.69,565000,35.23,NULL,NULL
+
+
+with encoding null
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/TESTDB \
+--username root \
+--password mostwanted12 \
+--table NULLTABLE \
+-m 1 \
+--target-dir /NULLTAB2 \
+--null-string '\\N' \
+--null-non-string '\\N'
+--direct
+
+
+
+NYSE,CII,2009-09-15,14.45,14.56,14.37,14.52,187700,14.08,\N,\N
+NYSE,CII,2009-09-14,14.37,14.58,14.25,14.44,197400,14.00,\N,\N
+NYSE,CII,2009-09-11,15.03,15.06,14.31,14.47,277300,14.03,\N,\N
+
+
+--having no null values
+NYSE,CA,2009-12-10,22.84,23.00,22.64,22.72,3484100,22.68,CA,COMPASSOCI
+NYSE,CA,2009-12-09,22.50,22.88,22.36,22.84,7173000,22.80,CA,COMPASSOCI
+NYSE,CA,2009-12-08,21.96,22.22,21.78,21.91,3423200,21.87,CA,COMPASSOCI
+
+
+--------------------
+IMPORTING ALL TABLES
+
+-------------------------
+
+
+sqoop import-all-tables \
+--connect jdbc:mysql://localhost:3306/TESTDB \
+--username root \
+--password mostwanted12 \
+-m 1 
+
+------------------
+
+IMPORTINg only new data
+
+---------------------
+
+sqoop import \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--table visits \
+--incremental append \
+--check-column id \            = column name 
+--last-value 1                 = last imported value
+
+--------------------------------------------------
+
+incrementally importing mutable data
+
+------------------------------------------------
+
+sqoop import \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--table visits \
+--incremental lastmodified \            = if the table value is modifed 
+--check-column last_update_date \        = timestamp
+--last-value "2013-05-22 01:01:01"      = last update date
+
+----------------------------------------------
+Preserving the Last Imported Value
+---------------------------------------------
+
+Incremental import is a great feature that you’re using a lot. Shouldering the responsi‐
+bility for remembering the last imported value is getting to be a hassle.
+
+You can take advantage of the built-in Sqoop metastore that allows you to save all pa‐
+rameters for later reuse. You can create a simple incremental import job with the fol‐
+lowing command:
+
+sqoop job \
+--create visits \
+-- \
+import \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--table visits \
+--incremental append \
+--check-column id \
+--last-value 0
+And start it with the --exec parameter:
+sqoop job --exec visits
+
+
+sqoop job --list
+
+sqoop job --delete visits
+
+
+sqoop job --show visits
+
+The most important benefit of the built-in Sqoop metastore is in conjunction with
+incremental import. Sqoop will automatically serialize the last imported value back into
+the metastore after each successful incremental job. This way, users do not need to
+remember the last imported value after each execution; everything is handled auto‐
+matically.
+
+
+----------------------------------------------------
+Storing Passwords in the Metastore
+----------------------------------------------------
+<configuration>
+...
+<property>
+<name>sqoop.metastore.client.record.password</name>
+<value>true</value>
+</property>
+</configuration>
+
+------------------------------------------
+
+Overriding the Arguments to a Saved Job
+
+------------------------------------------
+sqoop job --exec visits -- --verbose
+sqoop job --exec visits -- --last-value = 10;
+
+----------------------------------------------------
+Sharing the Metastore Between Sqoop Clients
+----------------------------------------------------
+
+Sqoop’s metastore can easily be started as a service with the following command:
+sqoop metastore
+Other clients can connect to this metastore by specifying the parameter --meta-connect
+in the command line with the URL of this machine. For example, to
+create a new saved job in the remote metastore running on the host
+mestastore.example.com , you can execute the following command:
+sqoop job
+
+
+--create visits \
+--meta-connect jdbc:hsqldb:hsql://metastore.example.com:16000/sqoop \
+-- \
+import \
+--table visits
+
+<configuration>
+...
+<property>
+<name>sqoop.metastore.client.autoconnect.url</name>
+<value>jdbc:hsqldb:hsql://your-metastore:16000/sqoop</value>
+</property>
+</configuration>
+
+----------------------------------------
+
+Importing Data from Two Tables
+
+-----------------------------------------
+
+sqoop import \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--query 'SELECT normcities.id, \
+countries.country, \
+normcities.city \
+FROM normcities \
+JOIN countries USING(country_id) \
+WHERE $CONDITIONS' \
+--split-by id \
+--target-dir cities
+
+-----------------------------------------
+CUSTOM BOUNDERY
+------------------------------------------
+
+sqoop import \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+-username sqoop \
+--password sqoop \
+--query 'SELECT normcities.id, \
+	countries.country, \
+	normcities.city \
+	FROM normcities \
+	JOIN countries USING(country_id) \
+	WHERE $CONDITIONS' \
+--split-by id \
+--target-dir cities \
+--boundary-query "select min(id), max(id) from normcities"
+
+------------------------------------------------------------
+
+--------------
+
+Renaming sqoop job instances
+
+------------------------
+
+sqoop import \
+--connect jdbc:mysql://mysql.example.com/sqoop \
+--username sqoop \
+--password sqoop \
+--query 'SELECT normcities.id, \
+	countries.country, \
+	normcities.city \
+	FROM normcities \
+	JOIN countries USING(country_id) \
+	WHERE $CONDITIONS' \
+--split-by id \
+--target-dir cities \
+--mapreduce-job-name normcities =>use defined name
+ 
+
+
+
+
+
