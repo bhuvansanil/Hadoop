@@ -1,0 +1,57 @@
+Download HBABSE from Apace
+
+Extract to ~/bigdata/
+
+copy below jar from HBASE lib to HADOOP lib (cp ~/bigdata/hbase-0.98.4-hadoop1/lib$ zookeeper-3.4.6.jar protobuf-java-2.5.0.jar guava-12.0.1.jar ~/bigdata/hadoop-1.2.1/lib
+
+make below modifications in hbase-env.sh
+
+export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-i386
+export HBASE_REGIONSERVERS=/home/bhuvan/bigdata/hbase-0.98.4-hadoop1/conf/regionservers
+export HBASE_MANAGES_ZK=true
+
+
+create a folder zookeeper inside bigdata and make below changes in ~/bigdata/hbase-0.98.4-hadoop1/conf/hbase-site.xml  
+
+<property>
+        <name>hbase.rootdir</name>
+        <value>hdfs://bhuvan:9000/hbase</value>
+</property>
+<property>
+        <name>hbase.cluster.distributed</name>
+        <value>true</value>
+</property>
+<property>
+        <name>hbase.zookeeper.quorum</name>
+        <value>bhuvan</value>
+</property>
+<property>
+        <name>dfs.replication</name>
+        <value>1</value>
+</property>
+<property>
+        <name>hbase.zookeeper.property.clientPort</name>
+        <value>2181</value>
+</property>
+<property>
+        <name>hbase.zookeeper.property.dataDir</name>
+        <value>/home/bhuvan/bigdata/zookeeper</value>
+</property>
+</configuration>
+
+
+start hadoop by start-all.sh
+start hbase by start-hbase.sh
+
+when you do jps below process must be running
+
+12001 HMaster
+12806 Jps
+12181 HRegionServer
+11060 DataNode
+11472 TaskTracker
+11945 HQuorumPeer
+10881 NameNode
+11222 SecondaryNameNode
+11318 JobTracker
+
