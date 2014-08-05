@@ -1,0 +1,69 @@
+day	kms
+1	120
+2	130
+3	160
+4	180
+5	190
+6	230
+7	390
+8	420
+9	430
+10	431
+
+problem: find the kms traveleld each day using pigscript
+
+kms_data = load '/kms' as (day:int,kms:int);
+filtkmsfirst = filter kms_data by day == 1; 
+otherkmsdata = filter kms_data by day != 1;
+addplus1 = foreach kms_data generate kms,(day + 1) as addedday;
+joindata = join otherkmsdata by day,addplus1 by addedday;
+formated = foreach joindata generate $0 as day,$1 as kmsday1,$2 as kmsday2
+
+finalrpt = foreach formated generate day,(kmsday1 - kmsday2) as eachdaykms;
+joinfinalrpt = union filtkmsfirst,finalrpt
+
+output
+
+(1,120)
+(2,10)
+(3,30)
+(4,20)
+(5,10)
+(6,40)
+(7,160)
+(8,30)
+(9,10)
+(10,1)
+
+
+
+wht if data is as below
+
+day1	100
+day2	140
+day3	150
+day4	180
+day5	190
+day6	200
+day7	220
+day8	250
+day9	290
+day10	304
+
+kmsdata =  load '/kms2' as (day:chararray,kms:int);
+kmsrank = rank kmsdata by day;
+
+
+filtkmsfirst = filter kmsrank by rank_kmsdata == 1;
+removerank = foreach filtkmsfirst generate day,kms; 
+otherkmsdata = filter kmsrank by rank_kmsdata != 1;
+
+addplus1 = foreach kmsrank generate kms,day,(rank_kmsdata + 1) as addedday;
+joindata = join otherkmsdata by rank_kmsdata,addplus1 by addedday;
+
+formated = foreach joindata generate $1 as day,$2 as currentkms,$3 as prevkms
+
+finalrpt = foreach formated generate day,(currentkms - prevkms) as eachdaykms;
+joinfinalrpt = union removerank,finalrpt;
+
+
