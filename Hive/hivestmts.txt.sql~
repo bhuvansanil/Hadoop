@@ -350,10 +350,4 @@ insert into table stock_bucket_table select * from nyse_stock_data;
 alter table stock_bucket_table change column volume volume string;  
 
 
-create external table testm (
-key int,
-val int)
-row format delimited fields terminated by '\t'
-location '/mdk'
-
 

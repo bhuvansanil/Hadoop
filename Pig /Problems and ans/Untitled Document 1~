@@ -64,6 +64,6 @@ joindata = join otherkmsdata by rank_kmsdata,addplus1 by addedday;
 formated = foreach joindata generate $1 as day,$2 as currentkms,$3 as prevkms
 
 finalrpt = foreach formated generate day,(currentkms - prevkms) as eachdaykms;
-	joinfinalrpt = union removerank,finalrpt;
+joinfinalrpt = union removerank,finalrpt;
 
 
