@@ -1,0 +1,30 @@
+﻿ <coordinator-app name="gbt_trigger" frequency="${coord:minutes(5)}"
+                    start="2014-12-16T13:30Z" end="2014-12-16T15:30Z"
+                    timezone="Asia/Kolkata"
+                    xmlns="uri:oozie:coordinator:0.1">
+      <datasets>
+        <dataset name="testdata" frequency="${coord:minutes(5)}"
+                 initial-instance="2014-12-16T13:29Z" timezone="Asia/Kolkata">
+          <uri-template>hdfs://rl-jj-master:8020/data/testdata</uri-template>
+        </dataset>
+      </datasets>
+      <action>
+        <workflow>
+          <app-path>hdfs://rl-jj-master:8020/usr/hdfs/ooziework</app-path>
+           <configuration>
+                <property>
+                    <name>jobTracker</name>
+                    <value>${jobTracker}</value>
+                </property>
+                <property>
+                    <name>nameNode</name>
+                    <value>${nameNode}</value>
+                </property>
+                <property>
+                    <name>queueName</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+       </workflow>
+      </action>
+   </coordinator-app>

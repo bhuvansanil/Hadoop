@@ -1,0 +1,17 @@
+<workflow-app name="TestLoad" xmlns="uri:oozie:workflow:0.4">
+    <start to="sqoop_import"/>
+    <action name="sqoop_import">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <command>sudo sqoop import --libjars /var/lib/sqoop/ojdbc6.jar --connect jdbc:oracle:thin:@//192.168.150.111:1521/xe --table SYSTEM.EKKO -m 1 --username system --password root@123 --target-dir hdfs:/user/jjuser/EKKO</command>
+        </sqoop>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
+

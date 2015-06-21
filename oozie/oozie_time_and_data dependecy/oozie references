@@ -1,0 +1,15 @@
+/user/jjuser/JDEF0006_idx
+
+
+oozie job -oozie http://rl-jj-master:11000/oozie -config /home/jjuser/bhuvan/oozie/properties/shell/job.properties -run 
+
+
+
+hadoop fs -put * /user/hdfs/ooziework/shell/
+hadoop fs -rm /user/hdfs/ooziework/shell/*
+
+
+oozie job -oozie http://rl-jj-master:11000/oozie -kill 0000010-141216110905790-oozie-oozi-C
+
+
+
