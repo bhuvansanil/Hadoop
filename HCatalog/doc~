@@ -1,3 +1,0 @@
-loading hive data to pig using HCatalog
-
-A = LOAD 'stock_database.stock_partition_table' USING org.apache.hcatalog.pig.HCatLoader(); 
